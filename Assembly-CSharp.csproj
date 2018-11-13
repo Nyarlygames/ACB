@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\MenuAvantController.cs" />
     <Compile Include="Assets\Scripts\MenuHelpController.cs" />
     <Compile Include="Assets\Scripts\MenuPauseController.cs" />
+    <Compile Include="Assets\Scripts\PlayerRuckController.cs" />
     <Compile Include="Assets\Scripts\PlayerToucheController.cs" />
     <Compile Include="Assets\Scripts\PositionController.cs" />
     <Compile Include="Assets\Scripts\RuckController.cs" />

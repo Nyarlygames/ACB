@@ -14,9 +14,10 @@ public class RuckController : MonoBehaviour {
     public SpawnerController initSpawn;
     List<PositionController> Positions = new List<PositionController>();
     public PositionController initPos;
+    public PlayerRuckController SelectedPlayer;
 
-    public bool phase0 = false; // wait for annonce
-    public bool phase1 = false; // place players
+    public bool phase0 = false; // annonce
+    public bool phase1 = false; // position
     public bool phase2 = false; // premiere passe
     public bool phase3 = false; // deuxieme passe
 
