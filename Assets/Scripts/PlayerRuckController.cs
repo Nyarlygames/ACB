@@ -41,7 +41,7 @@ public class PlayerRuckController : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if ((selected != true) && (RuckControl.phase1 == true))
+        if ((selected != true) && (RuckControl.phase2 == true))
         {
             MR.material.color = Color.blue;
             if (Input.GetMouseButtonDown(0))
