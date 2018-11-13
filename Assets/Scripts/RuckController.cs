@@ -22,6 +22,7 @@ public class RuckController : MonoBehaviour {
     Text TResult;
     Text TTimer;
     Text TLog;
+    string SelectedAnnonce = "";
 
     public bool phase0 = false; // annonce
     public bool phase1 = false; // position
@@ -33,8 +34,8 @@ public class RuckController : MonoBehaviour {
     public float timerPhase2 = 0.0f;
     public float timerPhase3 = 0.0f;
 
-    float initPhase0 = 5.0f;
-    float initPhase1 = 5.0f;
+    float initPhase0 = 3.0f;
+    float initPhase1 = 10.0f;
     float initPhase2 = 5.0f;
     float initPhase3 = 5.0f;
 
@@ -63,7 +64,7 @@ public class RuckController : MonoBehaviour {
             Positions.Add(pos.GetComponent<PositionController>());
             pos.SetActive(false);
         }
-        initRuck();
+        //initRuck();
         initAnnonce();
         Time.timeScale = 0.0f;
     }
@@ -172,26 +173,64 @@ public class RuckController : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Space) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false) || (timerPhase1 <= 0.0f) && (phase1 == false))
             {
                 CheckPhase1();
+                if (phase1 == false)
+                    Retry();
+                else
+                    timerPhase2 = initPhase2;
             }
         }
         else if (phase2 == false) // select player
         {
+            TTimer.text = ((int)timerPhase2 + 1).ToString();
+            timerPhase2 -= Time.deltaTime;
+            if ((timerPhase2 <= 0.0f) && (phase2 == false))
+            {
+            }
         }
     }
 
     void StartAnnounce()
     {
-        TAnnonce.text = Annonces[Random.Range(0, Annonces.Count)]; // add delay for announces
+        SelectedAnnonce = Annonces[Random.Range(0, Annonces.Count)];
+        TAnnonce.text = SelectedAnnonce + " !"; 
+        initRuck();
         timerPhase1 = initPhase1;
     }
 
     public void CheckPhase1()
     {
-        phase1 = true;
+        Debug.Log(initPos.name + " / " + SelectedAnnonce);
+        switch (SelectedAnnonce)
+        {
+            case "Zero":
+                if (string.Compare(initPos.name,"0") == 0)
+                    phase1 = true;
+                break;
+            case "Black":
+                if (string.Compare(initPos.name, "Black") == 0)
+                    phase1 = true;
+                break;
+            case "Soutien":
+                if (string.Compare(initPos.name, "Soutien") == 0)
+                    phase1 = true;
+                break;
+            case "Appuie":
+                if (string.Compare(initPos.name, "Appuie") == 0)
+                    phase1 = true;
+                break;
+            case "10":
+                if (string.Compare(initPos.name, "10") == 0)
+                    phase1 = true;
+                break;
+            default:
+                Debug.Log("failed announce at phase 1");
+                break;
+        }
 
     }
     public void Retry()
     {
+        Debug.Log("retry");
 
     }
 }

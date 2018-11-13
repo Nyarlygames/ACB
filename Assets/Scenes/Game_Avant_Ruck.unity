@@ -887,6 +887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: 0
+  name: Black
   set: 0
 --- !u!1 &120173144
 GameObject:
@@ -2236,6 +2237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: 0
+  name: Soutien
   set: 0
 --- !u!1001 &669939433
 Prefab:
@@ -4834,6 +4836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: 0
+  name: 0
   set: 0
 --- !u!1 &1700033534
 GameObject:
@@ -4882,6 +4885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: 0
+  name: Appuie
   set: 0
 --- !u!1 &1744267573
 GameObject:
@@ -5500,6 +5504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pos: 0
+  name: 10
   set: 0
 --- !u!4 &2029534170
 Transform:
