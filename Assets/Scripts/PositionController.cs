@@ -25,7 +25,10 @@ public class PositionController : MonoBehaviour {
         }
         else if (direction == 2)
         {
-
+            foreach (Transform child in gameObject.transform)
+            {
+                child.position = new Vector3(spawnPos.x + child.position.x, spawnPos.y + child.position.y, spawnPos.z + child.position.z - 2.0f);
+            }
         }
         else
             Debug.Log("error position in setobject position");
