@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerRuckController : MonoBehaviour {
     RuckController RuckControl;
-    MeshRenderer MR;
+    public MeshRenderer MR;
+    public string pname;
     bool selected = false;
 
 	void Awake () {
@@ -41,7 +42,7 @@ public class PlayerRuckController : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if ((selected != true) && (RuckControl.phase2 == true))
+        if ((selected != true) && (RuckControl.phase1 == true))
         {
             MR.material.color = Color.blue;
             if (Input.GetMouseButtonDown(0))

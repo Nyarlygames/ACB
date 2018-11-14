@@ -19,10 +19,12 @@ public class RuckController : MonoBehaviour {
 
     public List<string> Annonces = new List<string>();
     Text TAnnonce;
+    Text TAnnonce2;
     Text TResult;
     Text TTimer;
     Text TLog;
     string SelectedAnnonce = "";
+    string SelectedModifier = "";
 
     public bool phase0 = false; // annonce
     public bool phase1 = false; // position
@@ -39,6 +41,8 @@ public class RuckController : MonoBehaviour {
     float initPhase2 = 5.0f;
     float initPhase3 = 5.0f;
 
+    int lastresult = 0; // 0 init, 1 won, 2 failed, ... ?
+
 
     void Awake () {
         PauseUI = GameObject.Find("UI_Pause");
@@ -48,6 +52,7 @@ public class RuckController : MonoBehaviour {
         TRuck = GameObject.Find("Ruck").GetComponent<Transform>();
 
         TAnnonce = GameObject.Find("T_Annonce").GetComponent<Text>();
+        TAnnonce2 = GameObject.Find("T_Annonce2").GetComponent<Text>();
         TResult = GameObject.Find("T_LastResult").GetComponent<Text>();
         TTimer = GameObject.Find("T_Timers").GetComponent<Text>();
         TLog = GameObject.Find("T_Log").GetComponent<Text>();
@@ -64,7 +69,6 @@ public class RuckController : MonoBehaviour {
             Positions.Add(pos.GetComponent<PositionController>());
             pos.SetActive(false);
         }
-        //initRuck();
         initAnnonce();
         Time.timeScale = 0.0f;
     }
@@ -104,19 +108,16 @@ public class RuckController : MonoBehaviour {
 
         if (phase0 == false)
         {
-
-            /*if (lastresult == 1)
-                T_Last.color = Color.green;
-            else
-                T_Last.color = Color.red;
             if (lastresult == 1)
-                T_Last.text = "Touche réussie !";
-            else if (lastresult == 2)
-                T_Last.text = "Echec : Mauvais sauteur.";
-            else if (lastresult == 3)
-                T_Last.text = "Echec : Mauvaise position.";
-            else if (lastresult == 4)
-                T_Last.text = "Echec : Mauvaise combinaison.";*/
+            {
+                TResult.color = Color.green;
+                TResult.text = "Ruck réussi";
+            }
+            else
+            {
+                TResult.color = Color.red;
+                TResult.text = "Ruck raté"; // add reason
+            }
             TTimer.text = ((int)timerPhase0 + 1).ToString();
             timerPhase0 -= Time.deltaTime;
             if ((timerPhase0 <= 0.0f) && (phase0 == false))
@@ -176,17 +177,64 @@ public class RuckController : MonoBehaviour {
                 if (phase1 == false)
                     Retry();
                 else
+                {
+                    initPhase2Modifier();
                     timerPhase2 = initPhase2;
+                }
             }
         }
         else if (phase2 == false) // select player
         {
             TTimer.text = ((int)timerPhase2 + 1).ToString();
             timerPhase2 -= Time.deltaTime;
-            if ((timerPhase2 <= 0.0f) && (phase2 == false))
+
+            if (Input.GetKeyDown(KeyCode.Space) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false) || (timerPhase2 <= 0.0f) && (phase2 == false))
             {
+                CheckPhase2();
+                if (phase2 == false)
+                    Retry();
+                else
+                {
+                    if (lastresult == 0)
+                    {
+                        PassPhase2();
+                        initPhase3Modifier();
+                        timerPhase3 = initPhase3;
+                    }
+                }
             }
         }
+        else if (phase3 == false) // select 2d player
+        {
+            TTimer.text = ((int)timerPhase3 + 1).ToString();
+            timerPhase3 -= Time.deltaTime;
+
+            if (Input.GetKeyDown(KeyCode.Space) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false) || (timerPhase3 <= 0.0f) && (phase3 == false))
+            {
+                CheckPhase3();
+                if (phase3 == false)
+                    Retry();
+                else
+                    ValidateRuck();
+            }
+        }
+    }
+
+    public void PassPhase2()
+    {
+        TBall.position = SelectedPlayer.transform.position + new Vector3(0.5f, 0.0f, 1.5f);
+        if (SelectedPlayer != null)
+        {
+            SelectedPlayer.MR.material.color = Color.black;
+            SelectedPlayer = null;
+        }
+    }
+
+    public void ValidateRuck()
+    {
+        lastresult = 1;
+        Debug.Log("win");
+        Retry();
     }
 
     void StartAnnounce()
@@ -197,29 +245,182 @@ public class RuckController : MonoBehaviour {
         timerPhase1 = initPhase1;
     }
 
+    public void CheckPhase3()
+    {
+        if (SelectedPlayer == null)
+            Debug.Log("No player selected phase3");
+        else
+        {
+            switch (SelectedAnnonce)
+            {
+                case "Black":
+                    if (string.Compare(initPos.posname, "Black") == 0)
+                    {
+                        if ((string.Compare(SelectedModifier, "Bis") == 0) &&  (string.Compare(SelectedPlayer.pname, "10") == 0))
+                        {
+                            phase3 = true;
+                        }
+                        else if ((string.Compare(SelectedPlayer.pname, "-1") == 0) || (string.Compare(SelectedPlayer.pname, "+1") == 0))
+                        { 
+                            phase3 = true;
+                        }
+                    }
+                    break;
+                case "Soutien":
+                    if (string.Compare(initPos.posname, "Soutient") == 0)
+                    {
+                        if ((string.Compare(SelectedPlayer.pname, "-1") == 0) || (string.Compare(SelectedPlayer.pname, "+1") == 0))
+                            phase3 = true;
+                    }
+                    break;
+                case "Appuie":
+                    if (string.Compare(initPos.posname, "Appuie") == 0)
+                    {
+                        if (string.Compare(SelectedModifier, "Roll") == 0)
+                        {
+                            if (string.Compare(SelectedPlayer.pname, "10") == 0)
+                            {
+                                phase3 = true;
+                            }
+                        }
+                        else if (string.Compare(SelectedPlayer.pname, "+1") == 0)
+                        { 
+                                phase3 = true;
+                        }
+                    }
+                    break;
+                default:
+                    Debug.Log("failed player at phase3 ");
+                    break;
+            }
+        }
+    }
+
+    public void CheckPhase2()
+    {
+        if (SelectedPlayer == null)
+            Debug.Log("No player selected phase2");
+        else
+        {
+            switch (SelectedAnnonce)
+            {
+                case "Zero":
+                    if (string.Compare(initPos.posname, "0") == 0)
+                    {
+                        if (string.Compare(SelectedPlayer.pname, "0") == 0)
+                        {
+                            ValidateRuck();
+                            phase2 = true;
+                        }
+                    }
+                    break;
+                case "Black":
+                    if (string.Compare(initPos.posname, "Black") == 0)
+                    {
+                        if (string.Compare(SelectedPlayer.pname, "0") == 0)
+                            phase2 = true;
+                    }
+                    break;
+                case "Soutien":
+                    if (string.Compare(initPos.posname, "Soutient") == 0)
+                    {
+                        if (string.Compare(SelectedPlayer.pname, "10") == 0)
+                            phase2 = true;
+                    }
+                    break;
+                case "Appuie":
+                    if (string.Compare(initPos.posname, "Appuie") == 0)
+                    {
+                        if (string.Compare(SelectedModifier, "Roll") == 0)
+                        {
+                            if (string.Compare(SelectedPlayer.pname, "10") == 0)
+                            {
+                                ValidateRuck();
+                                phase2 = true;
+                            }
+                        }
+                        else
+                        {
+                            if (string.Compare(SelectedPlayer.pname, "-1") == 0)
+                                phase2 = true;
+                        }
+                    }
+                    break;
+                case "10":
+                    if (string.Compare(initPos.posname, "10") == 0)
+                    {
+                        if (string.Compare(SelectedPlayer.pname, "10") == 0)
+                        {
+                            ValidateRuck();
+                            phase2 = true;
+                        }
+                    }
+                    break;
+                default:
+                    Debug.Log("failed player at phase 2");
+                    break;
+            }
+        }
+    }
+
+    public void initPhase3Modifier()
+    {
+        SelectedModifier = "";
+        if (string.Compare(initPos.posname, "Black") == 0)
+        {
+            int roll = Random.Range(0, 2);
+            if (roll == 1)
+            {
+                SelectedModifier = "Bis";
+                TAnnonce2.text = "Bis !";
+            }
+        }
+        else if (string.Compare(initPos.posname, "Appuie") == 0)
+        {
+            int roll = Random.Range(0, 2);
+            if (roll == 1)
+            {
+                SelectedModifier = "Roll";
+                TAnnonce2.text = "Roll !";
+            }
+        }
+    }
+
+    public void initPhase2Modifier()
+    {
+        if (string.Compare(initPos.posname, "Appuie") == 0)
+        {
+            int roll = Random.Range(0, 2);
+            if (roll == 1)
+            {
+                SelectedModifier = "Roll";
+                TAnnonce2.text = "Roll !";
+            }
+        }
+    }
+
     public void CheckPhase1()
     {
-        Debug.Log(initPos.name + " / " + SelectedAnnonce);
         switch (SelectedAnnonce)
         {
             case "Zero":
-                if (string.Compare(initPos.name,"0") == 0)
+                if (string.Compare(initPos.posname, "0") == 0)
                     phase1 = true;
                 break;
             case "Black":
-                if (string.Compare(initPos.name, "Black") == 0)
+                if (string.Compare(initPos.posname, "Black") == 0)
                     phase1 = true;
                 break;
             case "Soutien":
-                if (string.Compare(initPos.name, "Soutien") == 0)
+                if (string.Compare(initPos.posname, "Soutient") == 0)
                     phase1 = true;
                 break;
             case "Appuie":
-                if (string.Compare(initPos.name, "Appuie") == 0)
+                if (string.Compare(initPos.posname, "Appuie") == 0)
                     phase1 = true;
                 break;
             case "10":
-                if (string.Compare(initPos.name, "10") == 0)
+                if (string.Compare(initPos.posname, "10") == 0)
                     phase1 = true;
                 break;
             default:
@@ -230,6 +431,29 @@ public class RuckController : MonoBehaviour {
     }
     public void Retry()
     {
+        SelectedAnnonce = "";
+        SelectedModifier = "";
+        TAnnonce.text = "";
+        TAnnonce2.text = "";
+        if (initPos != null)
+        {
+            initPos.gameObject.SetActive(false);
+            initPos = null;
+        }
+        if (SelectedPlayer != null)
+        {
+            SelectedPlayer.MR.material.color = Color.black;
+            SelectedPlayer = null;
+        }
+        timerPhase0 = initPhase0;
+        timerPhase1 = initPhase1;
+        timerPhase2 = initPhase2;
+        timerPhase3 = initPhase3;
+        phase0 = false;
+        phase1 = false;
+        phase2 = false;
+        phase3 = false;
+        lastresult = 0;
         Debug.Log("retry");
 
     }

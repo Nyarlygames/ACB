@@ -5,7 +5,7 @@ using UnityEngine;
 public class PositionController : MonoBehaviour {
 
     public int pos;
-    public string name;
+    public string posname;
     public bool set = false;
     void Start ()
     {
