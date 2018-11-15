@@ -7,8 +7,18 @@ public class PositionController : MonoBehaviour {
     public int pos;
     public string posname;
     public bool set = false;
-    void Start ()
+
+    Dictionary<string,Vector3> ChildInit = new Dictionary<string,Vector3>();
+    void Awake ()
     {
+    }
+
+    public void SetInit(Transform TRuck)
+    {
+        foreach (Transform child in gameObject.transform)
+        {
+            ChildInit.Add(child.gameObject.name,TRuck.position - child.position);
+        }
     }
 	
 	void Update () {
@@ -20,14 +30,14 @@ public class PositionController : MonoBehaviour {
         {
             foreach(Transform child in gameObject.transform)
             {
-                child.position = new Vector3(spawnPos.x - child.position.x, spawnPos.y + child.position.y, spawnPos.z + child.position.z - 2.0f);
+                child.position = new Vector3(spawnPos.x + ChildInit[child.name].x, spawnPos.y - ChildInit[child.name].y, spawnPos.z - ChildInit[child.name].z);
             }
         }
         else if (direction == 2)
         {
             foreach (Transform child in gameObject.transform)
             {
-                child.position = new Vector3(spawnPos.x + child.position.x, spawnPos.y + child.position.y, spawnPos.z + child.position.z - 2.0f);
+                child.position = new Vector3(spawnPos.x - ChildInit[child.name].x, spawnPos.y - ChildInit[child.name].y, spawnPos.z - ChildInit[child.name].z);
             }
         }
         else

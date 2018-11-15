@@ -69,6 +69,7 @@ public class RuckController : MonoBehaviour {
         foreach (GameObject pos in GameObject.FindGameObjectsWithTag("Position"))
         {
             pos.GetComponent<PositionController>().pos = Positions.Count;
+            pos.GetComponent<PositionController>().SetInit(TRuck);
             Positions.Add(pos.GetComponent<PositionController>());
             pos.SetActive(false);
         }
