@@ -10,7 +10,7 @@ public class PlayerToucheController : MonoBehaviour {
     public float upPos = 2.0f;
     public Transform PTransform;
     public Vector3 initPos;
-    public SpriteRenderer PSprite;
+   // public SpriteRenderer PSprite;
     public float gap = 0;
     ToucheController TouchControl;
     public bool selected = false;
@@ -19,7 +19,7 @@ public class PlayerToucheController : MonoBehaviour {
     {
         TouchControl = GameObject.Find("GameController").GetComponent<ToucheController>();
         PTransform = gameObject.GetComponent<Transform>();
-        PSprite = gameObject.GetComponent<SpriteRenderer>();
+       // PSprite = gameObject.GetComponent<SpriteRenderer>();
     }
 	
 	void Update () {
@@ -28,7 +28,7 @@ public class PlayerToucheController : MonoBehaviour {
 
     public void SetUp()
     {
-        PSprite.sprite = TouchControl.Up;
+        //PSprite.sprite = TouchControl.Up;
         if (side == 1)
             TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).MoveLift(side);
         if (side == -1)
@@ -42,9 +42,9 @@ public class PlayerToucheController : MonoBehaviour {
 
         }
 
-        TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).PSprite.sprite = TouchControl.Lift;
+       // TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).PSprite.sprite = TouchControl.Lift;
         TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).PTransform.Rotate(new Vector3(0.0f, -180.0f, 0.0f));
-        TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos + 1).PSprite.sprite = TouchControl.Lift;
+       // TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos + 1).PSprite.sprite = TouchControl.Lift;
         PTransform.position = new Vector3(PTransform.position.x, PTransform.position.y + upPos, PTransform.position.z);
     }
 
@@ -54,7 +54,7 @@ public class PlayerToucheController : MonoBehaviour {
         newPlace.y = startY;
         newPlace.z = startZ;
         newPlace.x = ((maxX - startX) / (size-1)) * pos;
-        gap = (((maxX - startX) / (size - 1)) - PSprite.sprite.bounds.extents.x) / 2;
+        gap = (((maxX - startX) / (size - 1)) - gameObject.transform.localScale.x) / 2;
         initPos = newPlace;
         PTransform.position = newPlace;
     }
@@ -107,16 +107,16 @@ public class PlayerToucheController : MonoBehaviour {
 
     public void ResetUp()
     {
-        TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).PSprite.sprite = TouchControl.Lift;
-        TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos + 1).PSprite.sprite = TouchControl.Lift;
-        PSprite.sprite = TouchControl.Up;
+       // TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).PSprite.sprite = TouchControl.Lift;
+      //  TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos + 1).PSprite.sprite = TouchControl.Lift;
+       // PSprite.sprite = TouchControl.Up;
     }
 
     public void SetDown()
     {
-        TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).PSprite.sprite = TouchControl.Normal;
-        TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos + 1).PSprite.sprite = TouchControl.Normal;
-        PSprite.sprite = TouchControl.Keep;
+       // TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos - 1).PSprite.sprite = TouchControl.Normal;
+       // TouchControl.PlayersControllers.Find(ptc => ptc.pos == pos + 1).PSprite.sprite = TouchControl.Normal;
+       // PSprite.sprite = TouchControl.Keep;
     }
 
     public void MakeCommand(int cmd)

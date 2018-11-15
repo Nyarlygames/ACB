@@ -84,7 +84,8 @@ public class ToucheController : MonoBehaviour {
         Normal = Resources.Load<Sprite>("Common/Player_normal");
         Keep = Resources.Load<Sprite>("Touche/garde");
 
-        PlayerPrefab = Resources.Load("Prefabs/PlayerTouchePrefab") as GameObject;
+       // PlayerPrefab = Resources.Load("Prefabs/PlayerTouchePrefab") as GameObject;
+        PlayerPrefab = Resources.Load("Common/AvantTouche") as GameObject;
         Annonce = GameObject.Find("T_Annonce").GetComponent<Text>();
         Timers = GameObject.Find("T_Timers").GetComponent<Text>();
         PauseUI = GameObject.Find("UIPause");
