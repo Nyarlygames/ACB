@@ -7,7 +7,7 @@ public class PositionController : MonoBehaviour {
     public int pos;
     public string posname;
     public bool set = false;
-
+    public List<PlayerRuckController> PRs = new List<PlayerRuckController>();
     Dictionary<string,Vector3> ChildInit = new Dictionary<string,Vector3>();
     void Awake ()
     {
@@ -18,6 +18,9 @@ public class PositionController : MonoBehaviour {
         foreach (Transform child in gameObject.transform)
         {
             ChildInit.Add(child.gameObject.name,TRuck.position - child.position);
+            PlayerRuckController pr = child.gameObject.GetComponent<PlayerRuckController>();
+            if (pr != null)
+                PRs.Add(pr);
         }
     }
 	

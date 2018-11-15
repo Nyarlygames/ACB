@@ -6,7 +6,7 @@ public class PlayerRuckController : MonoBehaviour {
     RuckController RuckControl;
     public MeshRenderer MR;
     public string pname;
-    bool selected = false;
+    public bool selected = false;
 
 	void Awake () {
         MR = gameObject.GetComponent<MeshRenderer>();
@@ -19,11 +19,22 @@ public class PlayerRuckController : MonoBehaviour {
 
     public void SetSelected()
     {
-        if (RuckControl.SelectedPlayer != null)
-            RuckControl.SelectedPlayer.UnSelect();
-        selected = true;
-        RuckControl.SelectedPlayer = this;
-        MR.material.color = Color.green;
+        if (RuckControl.phase2 == false)
+        {
+            if (RuckControl.SelectedPlayer1 != null)
+                RuckControl.SelectedPlayer1.UnSelect();
+            selected = true;
+            RuckControl.SelectedPlayer1 = this;
+            MR.material.color = Color.green;
+        }
+        else
+        {
+            if (RuckControl.SelectedPlayer2 != null)
+                RuckControl.SelectedPlayer2.UnSelect();
+            selected = true;
+            RuckControl.SelectedPlayer2 = this;
+            MR.material.color = Color.green;
+        }
     }
 
     public void UnSelect()
