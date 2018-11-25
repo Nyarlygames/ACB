@@ -44,8 +44,8 @@ public class ToucheButtonController : MonoBehaviour {
     public void setPos()
     {
         if ((command == 2) || (command == 4))
-            ButtonTransform.position = PTC.PTransform.position + new Vector3(1.2f, 3.5f, 0.0f);
+            ButtonTransform.position = PTC.PTransform.position + new Vector3(3.75f, 3.5f, 0.0f);
         else
-            ButtonTransform.position = PTC.PTransform.position + new Vector3(-1.2f, 3.5f, 0.0f);
+            ButtonTransform.position = PTC.PTransform.position + new Vector3(-3.75f, 3.5f, 0.0f);
     }
 }

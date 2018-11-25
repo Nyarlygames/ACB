@@ -248,7 +248,7 @@ public class ToucheController : MonoBehaviour {
                         Sol.setPos();
                         Passe.gameObject.SetActive(true);
                         Sol.gameObject.SetActive(true);
-                        Ball.transform.position = PTC.PTransform.position + new Vector3(0.0f, ballUp, 0.0f);
+                        Ball.transform.position = PTC.PTransform.position + new Vector3(0.0f, ballUp, -1.0f);
                         timerUp = initUp;
                     }
                 }
@@ -280,7 +280,7 @@ public class ToucheController : MonoBehaviour {
                     Garde.gameObject.SetActive(true);
                     Sort.gameObject.SetActive(true);
                     PTC.SetDown();
-                    Ball.transform.position = PTC.PTransform.position + new Vector3(0.0f, ballDown, -0.1f); ;
+                    Ball.transform.position = PTC.PTransform.position + new Vector3(0.0f, ballDown, -1.0f); ;
 
                     if (PTC.command == 2) // run and pass
                         endTouch();
@@ -297,8 +297,7 @@ public class ToucheController : MonoBehaviour {
             {
                 // check decide keep or pass
                 int result = VerifyDown();
-
-                if (lockedUp == false)
+                if (lockedDown == false)
                 {
                     Retry(result);
                 }

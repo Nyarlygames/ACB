@@ -46,8 +46,8 @@ public class ToucheArrowController : MonoBehaviour
     public void setPos()
     {
         if (dir == 1)
-            ArrowTransform.position = PTC.PTransform.position + new Vector3(1.0f, 2.0f, 0.0f);
+            ArrowTransform.position = PTC.PTransform.position + new Vector3(2.75f, 3.5f, 0.0f);
         else
-            ArrowTransform.position = PTC.PTransform.position + new Vector3(-1.0f, 2.0f, 0.0f);
+            ArrowTransform.position = PTC.PTransform.position + new Vector3(-2.75f, 3.5f, 0.0f);
     }
 }
