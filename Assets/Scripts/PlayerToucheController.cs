@@ -10,13 +10,15 @@ public class PlayerToucheController : MonoBehaviour {
     public float upPos = 2.0f;
     public Transform PTransform;
     public Vector3 initPos;
-   // public SpriteRenderer PSprite;
+    // public SpriteRenderer PSprite;
+    public MeshRenderer MR;
     public float gap = 0;
     ToucheController TouchControl;
     public bool selected = false;
     
 	void Awake ()
     {
+        MR = gameObject.GetComponent<MeshRenderer>();
         TouchControl = GameObject.Find("GameController").GetComponent<ToucheController>();
         PTransform = gameObject.GetComponent<Transform>();
        // PSprite = gameObject.GetComponent<SpriteRenderer>();
@@ -76,6 +78,7 @@ public class PlayerToucheController : MonoBehaviour {
         if (side == 1)
             PTransform.position = new Vector3(PTransform.position.x - gap, PTransform.position.y, PTransform.position.z);
         side = 0;
+        MR.material.color = Color.black;
         selected = false;
     }
 
@@ -88,6 +91,7 @@ public class PlayerToucheController : MonoBehaviour {
         TouchControl.ArrowLeft.setPos();
         TouchControl.ArrowRight.setPos();
         TouchControl.PTC = this;
+        MR.material.color = Color.blue;
         selected = true;
     }
 

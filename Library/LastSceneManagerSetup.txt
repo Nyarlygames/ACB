@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Game_Avant_Touche.unity
+- path: Assets/Scenes/Game_Avant_Ruck.unity
   isLoaded: 1
   isActive: 1

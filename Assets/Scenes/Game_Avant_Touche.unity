@@ -2069,13 +2069,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Tempo : passe la balle au sol pour une sortie lente
-
-    Run : passe la balle en l''air pour une sortie rapide
-
-    Drive : garde la balle au sol et forme un maul
-
-    Shap : passe au premier joueur de la touche'
+  m_Text: "Tempo : passe la balle au sol pour une sortie lente\nRun : passe la balle
+    en l'air pour une sortie rapide\nDrive : garde la balle au sol et forme un maul\nShap
+    : passe au premier joueur de la touche\n\n\nLancements pas encore impl\xE9ment\xE9s
+    :\n- 53 gas\n- 6 13\n- 5 13\n- ??"
 --- !u!222 &1573991846
 CanvasRenderer:
   m_ObjectHideFlags: 0

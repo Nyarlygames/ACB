@@ -732,8 +732,8 @@ public class ToucheController : MonoBehaviour {
         {
             Pre = PreAnnounce[Random.Range(1, PreAnnounce.Count)];
 
-            if (string.Compare(Pre, "") != 0)
-                Pre2 = PreAnnounce2[Random.Range(0, PreAnnounce2.Count)];
+            //if (string.Compare(Pre, "") != 0)
+            //    Pre2 = PreAnnounce2[Random.Range(0, PreAnnounce2.Count)];
             switch (size)
             {
                 case 4:
@@ -779,15 +779,18 @@ public class ToucheController : MonoBehaviour {
     {
         PreAnnounce.Add("Matesh");
         PreAnnounce.Add("");
+        PreAnnounce.Add("");
+        PreAnnounce.Add("");
+        PreAnnounce.Add("");
 
         for (int i = 0; i < 8; i++)
-            PreAnnounce.Add(((int)Random.Range(0, 9999)).ToString());
+             PreAnnounce.Add(((int)Random.Range(0, 9999)).ToString());
 
+       /* PreAnnounce2.Add("");
         PreAnnounce2.Add("");
         PreAnnounce2.Add("");
         PreAnnounce2.Add("");
-        PreAnnounce2.Add("");
-        PreAnnounce2.Add(((int)Random.Range(0, 100)).ToString());
+        PreAnnounce2.Add(((int)Random.Range(0, 100)).ToString());*/
 
         NumAnnounce.Add("10");
         NumAnnounce.Add("11");
