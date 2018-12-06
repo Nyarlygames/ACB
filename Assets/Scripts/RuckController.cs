@@ -126,7 +126,7 @@ public class RuckController : MonoBehaviour {
             if (lastresult == 1)
             {
                 TResult.color = Color.green;
-                TResult.text = "Ruck réussi";
+                TResult.text = "Lancement réussi";
             }
             else if (lastresult == 2)
             {
@@ -271,7 +271,10 @@ public class RuckController : MonoBehaviour {
     public void CheckPhase3()
     {
         if (SelectedPlayer2 == null)
+        {
+            lastresult = 3;
             Debug.Log("No player selected phase3");
+        }
         else
         {
             switch (SelectedAnnonce)
@@ -308,8 +311,21 @@ public class RuckController : MonoBehaviour {
                     if (string.Compare(initPos.posname, "Appuie") == 0)
                     {
                         if ((string.Compare(SelectedPlayer2.pname, "+1") == 0) || (string.Compare(SelectedPlayer2.pname, "10") == 0))
-                        { 
-                                phase3 = true;
+                        {
+                            phase3 = true;
+                        }
+                        else
+                            lastresult = 3;
+                    }
+                    else
+                        lastresult = 2;
+                    break;
+                case "10":
+                    if (string.Compare(initPos.posname, "10") == 0)
+                    {
+                        if ((string.Compare(SelectedPlayer2.pname, "12") == 0) || (string.Compare(SelectedPlayer2.pname, "0") == 0))
+                        {
+                            phase3 = true;
                         }
                         else
                             lastresult = 3;
@@ -326,8 +342,10 @@ public class RuckController : MonoBehaviour {
 
     public void CheckPhase2()
     {
-        if (SelectedPlayer1 == null)
-            Debug.Log("No player selected phase2");
+        if (SelectedPlayer1 == null) {
+            lastresult = 3;
+            Debug.Log("No player selectd phase2");
+        }
         else
         {
             switch (SelectedAnnonce)
