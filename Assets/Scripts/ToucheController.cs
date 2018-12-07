@@ -349,7 +349,7 @@ public class ToucheController : MonoBehaviour {
                 }
                 break;
             default:
-                Debug.Log("FAILED verif mod2, check switch");
+                Debug.Log("FAILED verif down, check switch");
                 break;
         }
         return result;

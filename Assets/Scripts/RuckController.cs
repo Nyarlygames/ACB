@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class RuckController : MonoBehaviour {
 
-    GameObject PauseUI;
-    GameObject HelpUI;
+    public GameObject PauseUI;
+    public GameObject HelpUI;
     Transform TCamera;
     Transform TBall;
     Transform TRuck;
@@ -187,8 +187,8 @@ public class RuckController : MonoBehaviour {
                     if (initPos.set == false)
                         initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
                 }
+                Debug.Log("ar " + initPos.posname);
             }
-
             if (Input.GetKeyDown(KeyCode.RightArrow) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false)) // next pos
             {
                 if (initPos.pos != Positions.Count - 1)
@@ -207,9 +207,20 @@ public class RuckController : MonoBehaviour {
                     if (initPos.set == false)
                         initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
                 }
+                Debug.Log("ar " + initPos.posname);
             }
             if (Input.GetKeyDown(KeyCode.Space) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false) || (timerPhase1 <= 0.0f) && (phase1 == false))
             {
+                if (PosPlus.activeSelf == true)
+                {
+                    PosPlus.GetComponent<PosArrowController>().ArrowRenderer.sprite = PosPlus.GetComponent<PosArrowController>().ArrowNormal;
+                    PosPlus.SetActive(false);
+                }
+                if (PosMinus.activeSelf == true)
+                {
+                    PosMinus.GetComponent<PosArrowController>().ArrowRenderer.sprite = PosMinus.GetComponent<PosArrowController>().ArrowNormal;
+                    PosMinus.SetActive(false);
+                }
                 CheckPhase1();
                 if (phase1 == false)
                     Retry();
@@ -223,10 +234,6 @@ public class RuckController : MonoBehaviour {
         }
         else if (phase2 == false) // select player
         {
-            if (PosPlus.activeSelf == true)
-                PosPlus.SetActive(false);
-            if (PosMinus.activeSelf == true)
-                PosMinus.SetActive(false);
             TTimer.text = ((int)timerPhase2 + 1).ToString();
             timerPhase2 -= Time.deltaTime;
 
@@ -266,6 +273,48 @@ public class RuckController : MonoBehaviour {
         }
     }
 
+    public void PreviousPos()
+    {
+        if (initPos.pos != 0)
+        {
+            initPos = Positions[initPos.pos - 1];
+            initPos.gameObject.SetActive(true);
+            Positions[initPos.pos + 1].gameObject.SetActive(false);
+            if (initPos.set == false)
+                initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
+        }
+        else
+        {
+            initPos = Positions[Positions.Count - 1];
+            initPos.gameObject.SetActive(true);
+            Positions[0].gameObject.SetActive(false);
+            if (initPos.set == false)
+                initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
+        }
+        Debug.Log(initPos.posname);
+    }
+
+    public void NextPos()
+    {
+        if (initPos.pos != Positions.Count - 1)
+        {
+            initPos = Positions[initPos.pos + 1];
+            initPos.gameObject.SetActive(true);
+            Positions[initPos.pos - 1].gameObject.SetActive(false);
+            if (initPos.set == false)
+                initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
+        }
+        else
+        {
+            initPos = Positions[0];
+            initPos.gameObject.SetActive(true);
+            Positions[Positions.Count - 1].gameObject.SetActive(false);
+            if (initPos.set == false)
+                initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
+        }
+        Debug.Log(initPos.posname);
+    }
+
     public void PassPhase2()
     {
         TBall.position = SelectedPlayer1.transform.position + new Vector3(0.5f, 0.0f, 1.5f);
@@ -303,7 +352,7 @@ public class RuckController : MonoBehaviour {
                         {
                             phase3 = true;
                         }
-                        else if ((string.Compare(SelectedPlayer2.pname, "-1") == 0) || (string.Compare(SelectedPlayer2.pname, "+1") == 0))
+                        else if ((string.Compare(SelectedModifier, "Bis") != 0) && ((string.Compare(SelectedPlayer2.pname, "-1") == 0) || (string.Compare(SelectedPlayer2.pname, "+1") == 0)))
                         {
                             phase3 = true;
                         }
@@ -483,6 +532,7 @@ public class RuckController : MonoBehaviour {
 
     public void CheckPhase1()
     {
+        Debug.Log("s : " + SelectedAnnonce + " / " + initPos.posname);
         switch (SelectedAnnonce)
         {
             case "Zero":
