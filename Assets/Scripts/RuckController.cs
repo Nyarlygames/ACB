@@ -18,6 +18,8 @@ public class RuckController : MonoBehaviour {
     public PositionController initPos;
     public PlayerRuckController SelectedPlayer1;
     public PlayerRuckController SelectedPlayer2;
+    public GameObject PosPlus;
+    public GameObject PosMinus;
 
     public List<string> Annonces = new List<string>();
     Text TAnnonce;
@@ -51,7 +53,13 @@ public class RuckController : MonoBehaviour {
     int lastresult = 0; // 0 init, 1 won, 2 mauvaise pos, 3 mauvais joueur
 
 
-    void Awake () {
+    void Awake ()
+    {
+        PosPlus = GameObject.Find("Pos+");
+        PosMinus = GameObject.Find("Pos-");
+        PosPlus.SetActive(false);
+        PosMinus.SetActive(false);
+
         PauseUI = GameObject.Find("UI_Pause");
         HelpUI = GameObject.Find("UI_Help");
         TCamera = GameObject.Find("Camera").GetComponent<Transform>();
@@ -152,6 +160,11 @@ public class RuckController : MonoBehaviour {
         }
         else if (phase1 == false) // select pos
         {
+            if (PosPlus.activeSelf == false)
+                PosPlus.SetActive(true);
+            if (PosMinus.activeSelf == false)
+                PosMinus.SetActive(true);
+
             if (TRuck.gameObject.activeSelf == false)
                 TRuck.gameObject.SetActive(true);
             TTimer.text = ((int)timerPhase1 + 1).ToString();
@@ -210,6 +223,10 @@ public class RuckController : MonoBehaviour {
         }
         else if (phase2 == false) // select player
         {
+            if (PosPlus.activeSelf == true)
+                PosPlus.SetActive(false);
+            if (PosMinus.activeSelf == true)
+                PosMinus.SetActive(false);
             TTimer.text = ((int)timerPhase2 + 1).ToString();
             timerPhase2 -= Time.deltaTime;
 
