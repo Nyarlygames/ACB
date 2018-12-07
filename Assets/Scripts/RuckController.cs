@@ -171,43 +171,11 @@ public class RuckController : MonoBehaviour {
             timerPhase1 -= Time.deltaTime;
             if (Input.GetKeyDown(KeyCode.LeftArrow) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false)) // previous pos
             {
-                if (initPos.pos != 0)
-                {
-                    initPos = Positions[initPos.pos - 1];
-                    initPos.gameObject.SetActive(true);
-                    Positions[initPos.pos + 1].gameObject.SetActive(false);
-                    if (initPos.set == false)
-                        initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
-                }
-                else
-                {
-                    initPos = Positions[Positions.Count - 1];
-                    initPos.gameObject.SetActive(true);
-                    Positions[0].gameObject.SetActive(false);
-                    if (initPos.set == false)
-                        initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
-                }
-                Debug.Log("ar " + initPos.posname);
+                PreviousPos();
             }
             if (Input.GetKeyDown(KeyCode.RightArrow) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false)) // next pos
             {
-                if (initPos.pos != Positions.Count - 1)
-                {
-                    initPos = Positions[initPos.pos + 1];
-                    initPos.gameObject.SetActive(true);
-                    Positions[initPos.pos - 1].gameObject.SetActive(false);
-                    if (initPos.set == false)
-                        initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
-                }
-                else
-                {
-                    initPos = Positions[0];
-                    initPos.gameObject.SetActive(true);
-                    Positions[Positions.Count - 1].gameObject.SetActive(false);
-                    if (initPos.set == false)
-                        initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
-                }
-                Debug.Log("ar " + initPos.posname);
+                NextPos();
             }
             if (Input.GetKeyDown(KeyCode.Space) && (PauseUI.activeSelf == false) && (HelpUI.activeSelf == false) || (timerPhase1 <= 0.0f) && (phase1 == false))
             {
@@ -291,7 +259,6 @@ public class RuckController : MonoBehaviour {
             if (initPos.set == false)
                 initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
         }
-        Debug.Log(initPos.posname);
     }
 
     public void NextPos()
@@ -312,7 +279,6 @@ public class RuckController : MonoBehaviour {
             if (initPos.set == false)
                 initPos.SetObjects(initSpawn.direction, initSpawn.transform.position);
         }
-        Debug.Log(initPos.posname);
     }
 
     public void PassPhase2()
@@ -532,7 +498,6 @@ public class RuckController : MonoBehaviour {
 
     public void CheckPhase1()
     {
-        Debug.Log("s : " + SelectedAnnonce + " / " + initPos.posname);
         switch (SelectedAnnonce)
         {
             case "Zero":
